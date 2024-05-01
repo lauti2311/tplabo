@@ -1,0 +1,42 @@
+.instrumento-detail {
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  margin: 50px;
+  min-width: 320px;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.instrumento-detail .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.instrumento-detail .left img {
+  width: 70%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.instrumento-detail .left p {
+  font-weight: bold;
+}
+
+.instrumento-detail .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.instrumento-detail .right .info-container {
+  padding: 20px;
+  border: 1px solid #ccc; /* Bordes grises */
+  border-radius: 10px;
+}
+
+.instrumento-detail .envio-gratis {
+  color: green;
+}

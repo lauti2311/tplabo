@@ -1,0 +1,26 @@
+.menu {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+  }
+  
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .menu ul li {
+    display: inline;
+  }
+  
+  .menu ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .menu ul li a:hover {
+    color: #007bff;
+  }
