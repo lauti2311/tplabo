@@ -1,5 +1,6 @@
+
 interface Instrumento {
-    id: string;
+    id: number;
     instrumento: string;
     marca: string;
     modelo: string;
@@ -7,7 +8,8 @@ interface Instrumento {
     precio: string;
     costoEnvio: string;
     cantidadVendida: string;
-    descripcion: string; // Podemos hacer la descripción opcional si no está presente en todos los instrumentos
+    descripcion?: string; // Podemos hacer la descripción opcional si no está presente en todos los instrumentos
+    idCategoria: number;
   }
   
   export default Instrumento;

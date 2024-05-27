@@ -5,6 +5,8 @@ import InstrumentoDetail from './components/InstrumentoDetail';
 import Home from './components/Home'; // Importa el componente Home
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Mapa from './components/Mapa';
+import CrearInstrumentoForm from './components/CrearInstrumentoForm';
+import ModificarInstrumento from './components/ModificarInstrumento';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +17,8 @@ const App: React.FC = () => {
           <Route path='/mapa' element={<Mapa />} />
           <Route path="/instrumentos" element={<InstrumentoList />} />
           <Route path="/instrumento/:id" element={<InstrumentoDetail />} />
+          <Route path="/crear-instrumento" element={<CrearInstrumentoForm />} />
+          <Route path="/instrumentos/:id/modificar" element={<ModificarInstrumento />} />
         </Routes>
       </div>
     </Router>
