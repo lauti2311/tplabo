@@ -1,5 +1,8 @@
 package com.example.tpLabo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +24,11 @@ public class PedidoDetalle {
 
     @ManyToOne
     @JoinColumn(name = "idPedido", referencedColumnName = "id")
+    @JsonBackReference(value = "pedido-detalles")
     private Pedido pedido;
 
     @ManyToOne
     @JoinColumn(name = "idInstrumento", referencedColumnName = "id")
+    @JsonBackReference(value = "instrumento-detalles")
     private Instrumento instrumento;
 }

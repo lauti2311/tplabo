@@ -1,3 +1,6 @@
+import PedidoDetalle from "./PedidoDetalles";
+
+
 interface Pedido {
     id?: number;
     fechaPedido: Date;

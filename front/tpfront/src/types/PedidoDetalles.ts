@@ -1,3 +1,6 @@
+import Pedido from "./Pedido";
+
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface PedidoDetalle {
     id?: number;

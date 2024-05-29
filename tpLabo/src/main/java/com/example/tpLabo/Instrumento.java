@@ -1,8 +1,6 @@
 package com.example.tpLabo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+
 public class Instrumento {
 
     @Id
@@ -37,6 +36,7 @@ public class Instrumento {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "instrumento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "instrumento-detalles")
     private List<PedidoDetalle> detalles;
 
     @Transient

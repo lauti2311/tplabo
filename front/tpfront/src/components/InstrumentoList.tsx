@@ -43,7 +43,11 @@ const InstrumentoList: React.FC = () => {
         const pedidoDetalles: PedidoDetalle[] = carrito.map(instrumento => ({
           cantidad: 1,
           instrumento: { id: instrumento.id },
-          pedido: { id: pedidoId } // Asigna el ID del pedido a cada detalle
+          pedido: { 
+            id: pedidoId, 
+            fechaPedido: new Date(), // Asegúrate de asignar un valor adecuado aquí
+            totalPedido: total // Asegúrate de asignar un valor adecuado aquí
+          }
         }));
   
         // Envía los detalles del pedido al backend

@@ -1,5 +1,8 @@
 package com.example.tpLabo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+
 public class Pedido {
 
     @Id
@@ -23,6 +27,7 @@ public class Pedido {
     private Double totalPedido;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "pedido-detalles")
     private List<PedidoDetalle> pedidoDetalles;
 
     public void addPedidoDetalle(PedidoDetalle pedidoDetalle) {
