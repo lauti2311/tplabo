@@ -3,7 +3,7 @@ import PedidoDetalle from "./PedidoDetalles";
 
 interface Pedido {
     id?: number;
-    fechaPedido: Date;
+    fechaPedido?: Date;
     totalPedido: number;
     pedidoDetalles?: PedidoDetalle[];
 }

@@ -4,55 +4,62 @@ import { Link } from 'react-router-dom';
 import Menu from './Menu';
 import Categoria from '../types/Categoria';
 import axios from 'axios';
-import Carrito from './Carrito'; // Asegúrate de que la ruta sea correcta
+import Carrito from './Carrito';
 import Pedido from '../types/Pedido';
 import PedidoDetalle from '../types/PedidoDetalles';
-
+import CarritoItem from '../types/CarritoItem'; // Importa CarritoItem
 
 const InstrumentoList: React.FC = () => {
   const [instrumentos, setInstrumentos] = useState<Instrumento[] | undefined>(undefined);
-  const [carrito, setCarrito] = useState<Instrumento[]>([]);
-  
+  const [carrito, setCarrito] = useState<CarritoItem[]>([]);
+
   const agregarAlCarrito = (instrumento: Instrumento) => {
-    setCarrito([...carrito, instrumento]);
+    const index = carrito.findIndex(item => item.instrumento.id === instrumento.id);
+    if (index !== -1) {
+      const newCarrito = [...carrito];
+      newCarrito[index].cantidad += 1;
+      setCarrito(newCarrito);
+    } else {
+      setCarrito([...carrito, { instrumento, cantidad: 1 }]);
+    }
   };
 
   const eliminarDelCarrito = (index: number) => {
     const nuevoCarrito = [...carrito];
-    nuevoCarrito.splice(index, 1);
+    if (nuevoCarrito[index].cantidad > 1) {
+      nuevoCarrito[index].cantidad -= 1;
+    } else {
+      nuevoCarrito.splice(index, 1);
+    }
     setCarrito(nuevoCarrito);
   };
 
   const guardarCarrito = async () => {
     try {
-      const total = carrito.reduce((sum, instrumento) => sum + Number(instrumento.precio), 0);
-  
-      // Crea el objeto Pedido (sin detalles aún)
+      const total = carrito.reduce((sum, item) => sum + (Number(item.instrumento.precio) * item.cantidad), 0);
+
       const pedido: Pedido = {
         fechaPedido: new Date(),
         totalPedido: total
       };
-  
-      // Envía el pedido al backend para obtener su ID
+
       const response = await axios.post<Pedido>('http://localhost:8080/api/pedidos', pedido);
-  
+
       if (response.status === 201) {
         const pedidoId = response.data.id;
-  
-        // Crea los detalles del pedido (ahora con el ID del pedido)
-        const pedidoDetalles: PedidoDetalle[] = carrito.map(instrumento => ({
-          cantidad: 1,
-          instrumento: { id: instrumento.id },
+
+        const pedidoDetalles: PedidoDetalle[] = carrito.map(item => ({
+          cantidad: item.cantidad,
+          instrumento: { id: item.instrumento.id },
           pedido: { 
             id: pedidoId, 
-            fechaPedido: new Date(), // Asegúrate de asignar un valor adecuado aquí
-            totalPedido: total // Asegúrate de asignar un valor adecuado aquí
+            fechaPedido: new Date(),
+            totalPedido: total 
           }
         }));
-  
-        // Envía los detalles del pedido al backend
+
         await axios.post('http://localhost:8080/api/pedidoDetalles', pedidoDetalles);
-  
+
         alert(`El pedido con id ${pedidoId} se guardó correctamente`);
         setCarrito([]);
       } else {
@@ -83,7 +90,6 @@ const InstrumentoList: React.FC = () => {
       method: 'DELETE',
     })
     .then(() => {
-      // Actualizar la lista de instrumentos después de eliminar
       if (instrumentos) {
         setInstrumentos(instrumentos.filter(instrumento => instrumento.id !== Number(id)));
       }
@@ -93,59 +99,56 @@ const InstrumentoList: React.FC = () => {
   ? instrumentos.filter(instrumento => instrumento.idCategoria === Number(categoriaSeleccionada))
   : instrumentos;
   return (
-    
     <div className="container" style={{ display: 'flex' }}> 
-    <div style={{ flex: 2 }}> {/* Columna izquierda */}
-      <Menu />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h2>Lista de Instrumentos</h2>
-        <Link to="/crear-instrumento">
-          <button>Agregar Instrumento</button>
-        </Link>
-      </div>
-      <div>
-        <label>Filtrar por categoría: </label>
-        <select value={categoriaSeleccionada} onChange={e => setCategoriaSeleccionada(e.target.value)}>
-          <option value="">Todas las categorías</option>
-          {categorias.map(categoria => (
-            <option key={categoria.id} value={categoria.id}>{categoria.denominacion}</option>
-          ))}
-        </select>
-      </div>
-      {instrumentosFiltrados === undefined ? (
-        <p>Cargando instrumentos...</p>
-      ) : (
-        instrumentosFiltrados.length > 0 ? (
-          instrumentosFiltrados.map((instrumento: Instrumento) => (
-            <div className="instrumento" key={instrumento.id}>
-              <img src={instrumento.imagen} alt={instrumento.instrumento} />
-              <div>
-                <h3>{instrumento.instrumento}</h3>
-                <p>Precio: ${instrumento.precio}</p>
-                {instrumento.costoEnvio !== 'G' && <p style={{ color: 'orange' }}>Costo de Envío: {instrumento.costoEnvio}</p>}
-                {instrumento.costoEnvio === 'G' &&
-                  <p style={{ color: 'green' }}>
-                    <img src="img/camion.png" style={{ width: '20px', height: '20px', margin: '2px' }} />
-                    Envios Gratis
-                  </p>}
-                <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
-                <Link to={`/instrumentos/${instrumento.id}/modificar`}>
-                  <button>Modificar Instrumento</button>
-                </Link>
-                <button onClick={() => agregarAlCarrito(instrumento)}>
-                  Agregar al carrito
-                </button>
-
-              </div>
-
-            </div>
-          ))
+      <div style={{ flex: 2 }}>
+        <Menu />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <h2>Lista de Instrumentos</h2>
+          <Link to="/crear-instrumento">
+            <button>Agregar Instrumento</button>
+          </Link>
+        </div>
+        <div>
+          <label>Filtrar por categoría: </label>
+          <select value={categoriaSeleccionada} onChange={e => setCategoriaSeleccionada(e.target.value)}>
+            <option value="">Todas las categorías</option>
+            {categorias.map(categoria => (
+              <option key={categoria.id} value={categoria.id}>{categoria.denominacion}</option>
+            ))}
+          </select>
+        </div>
+        {instrumentosFiltrados === undefined ? (
+          <p>Cargando instrumentos...</p>
         ) : (
-          <p>No hay instrumentos disponibles.</p>
-        )
-      )}
-    </div>
-    <div style={{ flex: 1, marginLeft: '20px', position: 'sticky', top: '0' }}> {/* Columna derecha */}
+          instrumentosFiltrados.length > 0 ? (
+            instrumentosFiltrados.map((instrumento: Instrumento) => (
+              <div className="instrumento" key={instrumento.id}>
+                <img src={instrumento.imagen} alt={instrumento.instrumento} />
+                <div>
+                  <h3>{instrumento.instrumento}</h3>
+                  <p>Precio: ${instrumento.precio}</p>
+                  {instrumento.costoEnvio !== 'G' && <p style={{ color: 'orange' }}>Costo de Envío: {instrumento.costoEnvio}</p>}
+                  {instrumento.costoEnvio === 'G' &&
+                    <p style={{ color: 'green' }}>
+                      <img src="img/camion.png" style={{ width: '20px', height: '20px', margin: '2px' }} />
+                      Envios Gratis
+                    </p>}
+                  <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
+                  <Link to={`/instrumentos/${instrumento.id}/modificar`}>
+                    <button>Modificar Instrumento</button>
+                  </Link>
+                  <button onClick={() => agregarAlCarrito(instrumento)}>
+                    Agregar al carrito
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No hay instrumentos disponibles.</p>
+          )
+        )}
+      </div>
+      <div style={{ flex: 1, marginLeft: '20px', position: 'sticky', top: '0' }}>
         <Carrito carrito={carrito} onEliminarDelCarrito={eliminarDelCarrito} />
         <button onClick={guardarCarrito} disabled={carrito.length === 0}>Guardar Carrito</button>
       </div>

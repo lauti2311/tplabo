@@ -1,17 +1,13 @@
-package com.example.tpLabo;
+package com.example.tpLabo.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.tpLabo.*;
+import com.example.tpLabo.entities.Categoria;
+import com.example.tpLabo.entities.Instrumento;
+import com.example.tpLabo.services.CategoriaService;
+import com.example.tpLabo.services.InstrumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

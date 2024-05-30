@@ -1,5 +1,7 @@
-package com.example.tpLabo;
+package com.example.tpLabo.controllers;
 
+import com.example.tpLabo.entities.Pedido;
+import com.example.tpLabo.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +30,12 @@ public class PedidoController {
     public List<Pedido> getPedidos() {
         return pedidoService.findAll();
     }
+
+    @PostMapping("api/create_preference_mp")
+    public PreferenceMP crearPreferenciaMercadoPago(@RequestBody Pedido pedido) {
+        MercadoPagoController cMercadoPago = new MercadoPagoController();
+        PreferenceMP preference = cMercadoPago.getPreferenciaIdMercadoPago(pedido);
+        return preference;
+    }
+
 }

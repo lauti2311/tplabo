@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Mapa from './components/Mapa';
 import CrearInstrumentoForm from './components/CrearInstrumentoForm';
 import ModificarInstrumento from './components/ModificarInstrumento';
+import CheckoutMP from './components/CheckoutMP';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,8 @@ const App: React.FC = () => {
           <Route path="/instrumento/:id" element={<InstrumentoDetail />} />
           <Route path="/crear-instrumento" element={<CrearInstrumentoForm />} />
           <Route path="/instrumentos/:id/modificar" element={<ModificarInstrumento />} />
+          <Route path="/mercadopago" element={<CheckoutMP />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </div>
     </Router>

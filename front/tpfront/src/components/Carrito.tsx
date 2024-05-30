@@ -1,13 +1,14 @@
 import React from 'react';
-import Instrumento from '../types/Instrumentos';
+import CarritoItem from '../types/CarritoItem';
+import CheckoutMP from './CheckoutMP';
 
 interface CarritoProps {
-  carrito: Instrumento[];
-  onEliminarDelCarrito: (index: number) => void; // Función para eliminar del carrito
+  carrito: CarritoItem[];
+  onEliminarDelCarrito: (index: number) => void;
 }
 
 const Carrito: React.FC<CarritoProps> = ({ carrito, onEliminarDelCarrito }) => {
-  const total = carrito.reduce((sum, instrumento) => sum + Number(instrumento.precio), 0);
+  const total = carrito.reduce((sum, item) => sum + Number(item.instrumento.precio) * item.cantidad, 0);
 
   return (
     <div className="carrito">
@@ -17,14 +18,15 @@ const Carrito: React.FC<CarritoProps> = ({ carrito, onEliminarDelCarrito }) => {
       ) : (
         <>
           <ul>
-            {carrito.map((instrumento, index) => (
+            {carrito.map((item, index) => (
               <li key={index}>
-                {instrumento.instrumento} - ${instrumento.precio}
+                {item.instrumento.instrumento} - ${item.instrumento.precio} x {item.cantidad}
                 <button onClick={() => onEliminarDelCarrito(index)}>Eliminar</button>
               </li>
             ))}
           </ul>
           <p>Total: ${total}</p>
+          <CheckoutMP montoCarrito={total} ></CheckoutMP>
         </>
       )}
     </div>

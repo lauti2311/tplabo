@@ -1,5 +1,7 @@
-package com.example.tpLabo;
+package com.example.tpLabo.services;
 
+import com.example.tpLabo.entities.Categoria;
+import com.example.tpLabo.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

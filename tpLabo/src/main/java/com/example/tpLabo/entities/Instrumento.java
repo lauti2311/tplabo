@@ -1,4 +1,4 @@
-package com.example.tpLabo;
+package com.example.tpLabo.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;

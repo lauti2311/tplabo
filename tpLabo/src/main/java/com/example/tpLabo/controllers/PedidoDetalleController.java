@@ -1,5 +1,9 @@
-package com.example.tpLabo;
+package com.example.tpLabo.controllers;
 
+import com.example.tpLabo.entities.Pedido;
+import com.example.tpLabo.entities.PedidoDetalle;
+import com.example.tpLabo.services.PedidoDetalleService;
+import com.example.tpLabo.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

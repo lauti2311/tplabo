@@ -1,5 +1,7 @@
-package com.example.tpLabo;
+package com.example.tpLabo.controllers;
 
+import com.example.tpLabo.entities.Categoria;
+import com.example.tpLabo.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
