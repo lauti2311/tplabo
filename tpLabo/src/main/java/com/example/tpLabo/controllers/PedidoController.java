@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "*")
 public class PedidoController {
 
     private final PedidoService pedidoService;
@@ -20,7 +20,7 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    @PostMapping("api/pedidos")
+    @PostMapping("/api/pedidos")
     public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
         Pedido savedPedido = pedidoService.save(pedido);
         return new ResponseEntity<>(savedPedido, HttpStatus.CREATED);
@@ -31,11 +31,6 @@ public class PedidoController {
         return pedidoService.findAll();
     }
 
-    @PostMapping("api/create_preference_mp")
-    public PreferenceMP crearPreferenciaMercadoPago(@RequestBody Pedido pedido) {
-        MercadoPagoController cMercadoPago = new MercadoPagoController();
-        PreferenceMP preference = cMercadoPago.getPreferenciaIdMercadoPago(pedido);
-        return preference;
-    }
+
 
 }

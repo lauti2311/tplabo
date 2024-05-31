@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173/") // reemplaza con la URL de tu aplicación React
+@CrossOrigin(origins = "*") // reemplaza con la URL de tu aplicación React
 public class InstrumentoController {
     private final InstrumentoService instrumentoService;
     private final CategoriaService categoriaService;

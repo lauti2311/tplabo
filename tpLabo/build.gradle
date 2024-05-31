@@ -34,8 +34,11 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-	// https://mvnrepository.com/artifact/com.mercadopago/sdk-java
-	implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.1.24'
+	implementation('com.mercadopago:sdk-java:2.1.7') {
+		exclude group: 'org.sonatype.sisu', module: 'sisu-guice'
+	}
+
+
 
 }
 
