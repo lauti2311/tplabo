@@ -35,9 +35,9 @@ public class Instrumento {
     @JsonBackReference
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "instrumento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference(value = "instrumento-detalles")
-    private List<PedidoDetalle> detalles;
+//    @OneToMany(mappedBy = "instrumento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonManagedReference(value = "instrumento-detalles")
+//    private List<PedidoDetalle> detalles;
 
     @Transient
     public Integer getIdCategoria() {
