@@ -8,13 +8,17 @@ import Mapa from './components/Mapa';
 import CrearInstrumentoForm from './components/CrearInstrumentoForm';
 import ModificarInstrumento from './components/ModificarInstrumento';
 import CheckoutMP from './components/CheckoutMP';
+import Login from './components/Login';
+import { AuthProvider } from './utils/AuthContext';
 
 const App: React.FC = () => {
   return (
+    <AuthProvider>
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Home />} /> {/* Usa el componente Home en la ruta base */}
+          <Route path="/" element={<Login />} /> {/* Usa el componente Home en la ruta base */}
+          <Route path="/home" element={<Home />} /> {/* Usa el componente Home en la ruta base */}
           <Route path='/mapa' element={<Mapa />} />
           <Route path="/instrumentos" element={<InstrumentoList />} />
           <Route path="/instrumento/:id" element={<InstrumentoDetail />} />
@@ -25,6 +29,7 @@ const App: React.FC = () => {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
   );
 };
 
