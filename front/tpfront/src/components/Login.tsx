@@ -35,7 +35,7 @@ function Login() {
 
       if (usuario) {
         console.log('Inicio de sesión exitoso:', usuario);
-        iniciarSesion(usuario.nombreUsuario); // Aquí llamamos a iniciarSesion
+        iniciarSesion(usuario.nombreUsuario, usuario.rol); // Aquí llamamos a iniciarSesion
         navigate('/home');
       } else {
         console.error('Error de inicio de sesión: usuario no encontrado');

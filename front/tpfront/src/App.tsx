@@ -10,23 +10,25 @@ import ModificarInstrumento from './components/ModificarInstrumento';
 import CheckoutMP from './components/CheckoutMP';
 import Login from './components/Login';
 import { AuthProvider } from './utils/AuthContext';
+import { RutaPrivada } from './utils/RutaPrivada';
+
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
     <Router>
       <div>
-        <Routes>
-          <Route path="/" element={<Login />} /> {/* Usa el componente Home en la ruta base */}
-          <Route path="/home" element={<Home />} /> {/* Usa el componente Home en la ruta base */}
-          <Route path='/mapa' element={<Mapa />} />
-          <Route path="/instrumentos" element={<InstrumentoList />} />
-          <Route path="/instrumento/:id" element={<InstrumentoDetail />} />
-          <Route path="/crear-instrumento" element={<CrearInstrumentoForm />} />
-          <Route path="/instrumentos/:id/modificar" element={<ModificarInstrumento />} />
-          <Route path="/mercadopago" element={<CheckoutMP />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
+      <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<RutaPrivada><Home /></RutaPrivada>} />
+            <Route path='/mapa' element={<RutaPrivada><Mapa /></RutaPrivada>} />
+            <Route path="/instrumentos" element={<RutaPrivada><InstrumentoList /></RutaPrivada>} />
+            <Route path="/instrumento/:id" element={<RutaPrivada><InstrumentoDetail /></RutaPrivada>} />
+            <Route path="/crear-instrumento" element={<RutaPrivada><CrearInstrumentoForm /></RutaPrivada>} />
+            <Route path="/instrumentos/:id/modificar" element={<RutaPrivada><ModificarInstrumento /></RutaPrivada>} />
+            <Route path="/mercadopago" element={<RutaPrivada><CheckoutMP /></RutaPrivada>} />
+            <Route path="*" element={<Login />} />
+          </Routes>
       </div>
     </Router>
     </AuthProvider>

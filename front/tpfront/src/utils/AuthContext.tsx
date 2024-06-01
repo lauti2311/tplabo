@@ -1,8 +1,9 @@
 import React, { createContext, useState, ReactNode } from 'react';
+import { Rol } from '../types/Usuario';
 
 interface AuthContextType {
-  usuario: string | null;
-  iniciarSesion: (nombreUsuario: string) => void;
+  usuario: { nombre: string, rol: Rol } | null;
+  iniciarSesion: (nombreUsuario: string, rol: Rol) => void;
   cerrarSesion: () => void;
 }
 
@@ -13,10 +14,10 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [usuario, setUsuario] = useState<string | null>(null);
+  const [usuario, setUsuario] = useState<{ nombre: string, rol: Rol } | null>(null);
 
-  const iniciarSesion = (nombreUsuario: string) => {
-    setUsuario(nombreUsuario);
+  const iniciarSesion = (nombreUsuario: string, rol: Rol) => {
+    setUsuario({ nombre: nombreUsuario, rol });
   };
 
   const cerrarSesion = () => {

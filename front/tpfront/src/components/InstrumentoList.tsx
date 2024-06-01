@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Instrumento from '../types/Instrumentos';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
@@ -8,10 +8,17 @@ import Carrito from './Carrito';
 import Pedido from '../types/Pedido';
 import PedidoDetalle from '../types/PedidoDetalles';
 import CarritoItem from '../types/CarritoItem'; // Importa CarritoItem
+import { AuthContext } from '../utils/AuthContext'; // Asegúrate de que la ruta sea correcta
+
+
+
 
 const InstrumentoList: React.FC = () => {
   const [instrumentos, setInstrumentos] = useState<Instrumento[] | undefined>(undefined);
   const [carrito, setCarrito] = useState<CarritoItem[]>([]);
+  const authContext = useContext(AuthContext);
+const usuario = authContext ? authContext.usuario : undefined;
+
 
   const agregarAlCarrito = (instrumento: Instrumento) => {
     const index = carrito.findIndex(item => item.instrumento.id === instrumento.id);
@@ -104,9 +111,11 @@ const InstrumentoList: React.FC = () => {
         <Menu />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <h2>Lista de Instrumentos</h2>
-          <Link to="/crear-instrumento">
-            <button>Agregar Instrumento</button>
-          </Link>
+          {usuario && usuario.rol !== 'VISOR' && (
+            <Link to="/crear-instrumento">
+              <button>Agregar Instrumento</button>
+            </Link>
+          )}
         </div>
         <div>
           <label>Filtrar por categoría: </label>
@@ -133,13 +142,17 @@ const InstrumentoList: React.FC = () => {
                       <img src="img/camion.png" style={{ width: '20px', height: '20px', margin: '2px' }} />
                       Envios Gratis
                     </p>}
-                  <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
-                  <Link to={`/instrumentos/${instrumento.id}/modificar`}>
-                    <button>Modificar Instrumento</button>
-                  </Link>
-                  <button onClick={() => agregarAlCarrito(instrumento)}>
-                    Agregar al carrito
-                  </button>
+                    {usuario && usuario.rol !== 'VISOR' && (
+                      <>
+                        <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
+                        <Link to={`/instrumentos/${instrumento.id}/modificar`}>
+                          <button>Modificar Instrumento</button>
+                        </Link>
+                      </>
+                    )}
+                    <button onClick={() => agregarAlCarrito(instrumento)}>
+                      Agregar al carrito
+                    </button>
                 </div>
               </div>
             ))

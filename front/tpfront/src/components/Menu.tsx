@@ -25,7 +25,7 @@ const Menu = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/mapa">Donde Estamos</Link></li>
         <li><Link to="/instrumentos">Productos</Link></li>
-        {usuario && <li>Usuario: {usuario}</li>}
+        {usuario && <li>Usuario: {usuario.nombre}, Rol: {usuario.rol}</li>}
         <li><button onClick={handleCerrarSesion}>Cerrar Sesión</button></li>
       </ul>
     </nav>
