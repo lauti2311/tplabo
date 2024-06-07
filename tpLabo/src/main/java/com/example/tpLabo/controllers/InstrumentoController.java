@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*") // reemplaza con la URL de tu aplicación React
+@CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class InstrumentoController {
     private final InstrumentoService instrumentoService;
     private final CategoriaService categoriaService;
@@ -61,12 +62,28 @@ public class InstrumentoController {
 
     @DeleteMapping("/api/instrumentos/{id}")
     public void deleteInstrumento(@PathVariable Integer id) {
-        instrumentoService.delete(id);
+        Instrumento instrumento = instrumentoService.findById(id);
+        if (instrumento == null) {
+            throw new RuntimeException("Instrumento no encontrado con ID: " + id);
+        }
+        instrumento.setIsDeleted(true);
+        instrumentoService.save(instrumento);
     }
 
     @GetMapping("/api/instrumentos/categoria/{idCategoria}")
     public List<Instrumento> getInstrumentosByCategoria(@PathVariable int idCategoria) {
         return instrumentoService.findByCategoria(idCategoria);
+    }
+
+    @PutMapping("/api/instrumentos/{id}/venta")
+    public Instrumento incrementarCantidadVendida(@PathVariable Integer id, @RequestBody Map<String, Integer> body) {
+        Integer cantidad = body.get("cantidad");
+        Instrumento instrumentoExistente = instrumentoService.findById(id);
+        if (instrumentoExistente == null) {
+            throw new RuntimeException("Instrumento no encontrado con ID: " + id);
+        }
+        instrumentoExistente.setCantidadVendida(instrumentoExistente.getCantidadVendida() + cantidad);
+        return instrumentoService.update(id, instrumentoExistente);
     }
 
 //    @GetMapping("/instrumentos")

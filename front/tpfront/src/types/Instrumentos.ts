@@ -7,7 +7,7 @@ interface Instrumento {
     imagen: string;
     precio: string;
     costoEnvio: string;
-    cantidadVendida: string;
+    cantidadVendida: number;
     descripcion?: string; // Podemos hacer la descripción opcional si no está presente en todos los instrumentos
     idCategoria: number;
   }

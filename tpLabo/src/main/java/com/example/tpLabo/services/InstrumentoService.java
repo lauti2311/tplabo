@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InstrumentoService {
@@ -23,9 +24,9 @@ public class InstrumentoService {
                     .orElseThrow(() -> new RuntimeException("Instrumento no encontrado con id: " + id));
 }
     public List<Instrumento> findAll() {
-        List<Instrumento> instrumentos = instrumentoRepository.findAll();
-        instrumentos.forEach(instrumento -> Hibernate.initialize(instrumento.getCategoria()));
-        return instrumentoRepository.findAll();
+        return instrumentoRepository.findAll().stream()
+                .filter(instrumento -> !instrumento.getIsDeleted())
+                .collect(Collectors.toList());
     }
 
     public Instrumento save(Instrumento instrumento) {

@@ -66,7 +66,15 @@ const usuario = authContext ? authContext.usuario : undefined;
         }));
 
         await axios.post('http://localhost:8080/api/pedidoDetalles', pedidoDetalles);
-
+        
+        for (const item of carrito) {
+          const instrumento = item.instrumento;
+          await axios.put(`http://localhost:8080/api/instrumentos/${instrumento.id}/venta`, { cantidad: item.cantidad }, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        }
         alert(`El pedido con id ${pedidoId} se guardó correctamente`);
         setCarrito([]);
       } else {
@@ -153,6 +161,9 @@ const usuario = authContext ? authContext.usuario : undefined;
                     <button onClick={() => agregarAlCarrito(instrumento)}>
                       Agregar al carrito
                     </button>
+                    <Link to={`/instrumento/${instrumento.id}`}>
+                      <button>Ver detalles</button>
+                    </Link>
                 </div>
               </div>
             ))

@@ -41,4 +41,9 @@ public class PedidoDetalleController {
 
         return savedPedidoDetalles;
     }
+
+    @GetMapping("/api/Detallepedidos")
+    public List<PedidoDetalle> getPedidos() {
+        return pedidoDetalleService.findAll();
+    }
 }

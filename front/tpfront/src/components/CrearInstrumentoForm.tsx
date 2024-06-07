@@ -54,7 +54,7 @@ const CrearInstrumentoForm: React.FC = () => {
 
   return (
     <Formik
-  initialValues={{ instrumento: '', marca: '', modelo: '', precio: '', costoEnvio: '', imagen: '', descripcion: '' ,   categoria: { id: '' }, // Objeto de tipo Categoria
+  initialValues={{ instrumento: '', marca: '', modelo: '', precio: '', costoEnvio: '', imagen: '', descripcion: '',     cantidadVendida: 0,   categoria: { id: '' }, // Objeto de tipo Categoria
 }}
   validationSchema={validationSchema}
   onSubmit={handleSubmit}

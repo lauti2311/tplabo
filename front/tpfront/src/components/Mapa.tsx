@@ -1,8 +1,12 @@
 import React from 'react';
+import Menu from './Menu';
 
 const Mapa = () => {
-  return (
+    
+    return (
+    
       <div className='container mt-0'>
+        <Menu />
           <div className='col-md-12 '>
               <p className='text-left h5 m-3'>Donde estamos:</p>
           </div>

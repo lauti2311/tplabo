@@ -26,8 +26,19 @@ public class Instrumento {
     private String imagen;
     private String precio;
     private String costoEnvio;
-    private String cantidadVendida;
+    private Integer cantidadVendida;
     private String descripcion;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
+
+    public boolean getIsDeleted() {
+    return this.isDeleted;
+}
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
 
     @ManyToOne

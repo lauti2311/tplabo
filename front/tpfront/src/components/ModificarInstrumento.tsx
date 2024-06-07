@@ -8,16 +8,16 @@ import Categoria from '../types/Categoria';
 
 
 const validationSchema = yup.object({
-  instrumento: yup.string().required('El nombre del instrumento es obligatorio'),
-  marca: yup.string().required('La marca del instrumento es obligatoria'),
-  modelo: yup.string().required('El modelo del instrumento es obligatorio'),
-  imagen: yup.string().url().required('La URL de la imagen es obligatoria'),
-  precio: yup.string().required('El precio es obligatorio'), // Cambiado a string porque se espera un string
-  costoEnvio: yup.string().required('El costo de envío es obligatorio'), // Cambiado a string porque se espera un string
-  cantidadVendida: yup.string().required('La cantidad vendida es obligatoria'), // Cambiado a string porque se espera un string
-  descripcion: yup.string().min(10, 'La descripción debe tener al menos 10 caracteres'),
+  instrumento: yup.string(),
+  marca: yup.string(),
+  modelo: yup.string(),
+  imagen: yup.string().url(),
+  precio: yup.string(), // Cambiado a string porque se espera un string
+  costoEnvio: yup.string(), // Cambiado a string porque se espera un string
+  cantidadVendida: yup.number(), // Cambiado a string porque se espera un string
+  descripcion: yup.string(),
   categoria: yup.object().shape({
-    id: yup.string().required('Selecciona una categoría'),
+    id: yup.string(),
   }),
 });
 
@@ -33,7 +33,7 @@ const ModificarInstrumento: React.FC = () => {
     imagen: '',
     precio: '',
     costoEnvio: '',
-    cantidadVendida: '',
+    cantidadVendida: 0,
     descripcion: '',
     idCategoria: 0,
   });
@@ -49,7 +49,7 @@ const ModificarInstrumento: React.FC = () => {
                 ...dataInstrumento,
                 precio: String(dataInstrumento.precio),
                 costoEnvio: String(dataInstrumento.costoEnvio),
-                cantidadVendida: dataInstrumento.cantidadVendida ? String(dataInstrumento.cantidadVendida) : '',
+                cantidadVendida: Number(dataInstrumento.cantidadVendida) ,
                 idCategoria: dataInstrumento.idCategoria,
               });
       
