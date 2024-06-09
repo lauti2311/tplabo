@@ -11,6 +11,7 @@ import CheckoutMP from './components/CheckoutMP';
 import Login from './components/Login';
 import { AuthProvider } from './utils/AuthContext';
 import { RutaPrivada } from './utils/RutaPrivada';
+import ChartsGoogle from './components/ChartsGoogle';
 
 
 const App: React.FC = () => {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
             <Route path="/crear-instrumento" element={<RutaPrivada><CrearInstrumentoForm /></RutaPrivada>} />
             <Route path="/instrumentos/:id/modificar" element={<RutaPrivada><ModificarInstrumento /></RutaPrivada>} />
             <Route path="/mercadopago" element={<RutaPrivada><CheckoutMP /></RutaPrivada>} />
+            <Route path='/google-charts' element={<RutaPrivada><ChartsGoogle /></RutaPrivada>} />
             <Route path="*" element={<Login />} />
           </Routes>
       </div>

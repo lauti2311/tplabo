@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Instrumento from '../types/Instrumentos';
-import './InstrumentoDetail.css'; 
+import '../styles/InstrumentoDetail.css'; 
 import Menu from './Menu';
 
 const InstrumentoDetail: React.FC = () => {

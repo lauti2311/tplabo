@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import {  useNavigate } from 'react-router-dom';
 import Categoria from '../types/Categoria';
 
-import './CrearInstrumento.css'; // Importa tu archivo CSS aquí
+import '../styles/CrearInstrumento.css'; // Importa tu archivo CSS aquí
 
 
 const CrearInstrumentoForm: React.FC = () => {

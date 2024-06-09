@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu from './Menu';
 import { Carousel } from 'react-bootstrap'; // Asegúrate de instalar este paquete
-import './Home.css';
+import '../styles/Home.css';
 
 const Home = () => {
   return (

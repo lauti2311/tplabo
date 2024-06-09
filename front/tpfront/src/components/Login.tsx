@@ -3,7 +3,7 @@ import { sha1 } from 'js-sha1';
 import Usuario from '../types/Usuario';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
-import './Login.css';
+import '../styles/Login.css';
 
 
 function Login() {
