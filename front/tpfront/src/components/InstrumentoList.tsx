@@ -9,6 +9,8 @@ import Pedido from '../types/Pedido';
 import PedidoDetalle from '../types/PedidoDetalles';
 import CarritoItem from '../types/CarritoItem'; // Importa CarritoItem
 import { AuthContext } from '../utils/AuthContext'; // Asegúrate de que la ruta sea correcta
+import Modal from 'react-modal'; // Importa Modal
+
 
 
 
@@ -18,6 +20,28 @@ const InstrumentoList: React.FC = () => {
   const [carrito, setCarrito] = useState<CarritoItem[]>([]);
   const authContext = useContext(AuthContext);
 const usuario = authContext ? authContext.usuario : undefined;
+  const [fechaDesde, setFechaDesde] = useState('');
+  const [fechaHasta, setFechaHasta] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
+const cerrarModal = () => {
+  setShowModal(false);
+};
+const generarExcel = () => {
+  if (fechaDesde && fechaHasta) {
+      // Añadir la hora a las fechas
+      const fechaDesdeConHora = `${fechaDesde}T00:00:00`;
+      const fechaHastaConHora = `${fechaHasta}T23:59:59`;
+
+      const url = `http://localhost:8080/api/pedidos/downloadExcel?fechaDesde=${fechaDesdeConHora}&fechaHasta=${fechaHastaConHora}`;
+
+      // Abrir la URL en una nueva pestaña
+      window.open(url, '_blank');
+      cerrarModal();
+  } else {
+      alert('Por favor ingresa ambas fechas.');
+  }
+}
 
 
   const agregarAlCarrito = (instrumento: Instrumento) => {
@@ -124,7 +148,19 @@ const usuario = authContext ? authContext.usuario : undefined;
               <button>Agregar Instrumento</button>
             </Link>
           )}
-        </div>
+               {usuario && usuario.rol === 'ADMIN' && (
+          <button onClick={() => setShowModal(true)}>Generar Excel</button>
+           )}
+         </div>    
+        <Modal isOpen={showModal} onRequestClose={cerrarModal}>
+            <h2>Generar Excel</h2>
+            <label>Fecha desde: </label>
+            <input type="date" value={fechaDesde} onChange={e => setFechaDesde(e.target.value)} />
+            <label>Fecha hasta: </label>
+            <input type="date" value={fechaHasta} onChange={e => setFechaHasta(e.target.value)} />
+            <button onClick={generarExcel}>Generar</button>
+            <button onClick={cerrarModal}>Cerrar</button>
+          </Modal>
         <div>
           <label>Filtrar por categoría: </label>
           <select value={categoriaSeleccionada} onChange={e => setCategoriaSeleccionada(e.target.value)}>
@@ -156,6 +192,7 @@ const usuario = authContext ? authContext.usuario : undefined;
                         <Link to={`/instrumentos/${instrumento.id}/modificar`}>
                           <button>Modificar Instrumento</button>
                         </Link>
+                        
                       </>
                     )}
                     <button onClick={() => agregarAlCarrito(instrumento)}>

@@ -38,6 +38,8 @@ dependencies {
 		exclude group: 'org.sonatype.sisu', module: 'sisu-guice'
 	}
 
+	implementation 'org.apache.poi:poi-ooxml:5.2.5'
+	implementation 'com.lowagie:itext:2.1.7'
 
 
 }

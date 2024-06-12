@@ -29,6 +29,13 @@ public class Instrumento {
     private Integer cantidadVendida;
     private String descripcion;
 
+    public Instrumento(String instrumento, String marca, String modelo, String precio) {
+        this.instrumento = instrumento;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.precio = precio;
+    }
+
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
