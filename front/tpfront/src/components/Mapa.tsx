@@ -1,11 +1,11 @@
 import React from 'react';
 import Menu from './Menu';
-
+import '../styles/Menu.css';
 const Mapa = () => {
     
     return (
     
-      <div className='container mt-0'>
+      <div className='menu'>
         <Menu />
           <div className='col-md-12 '>
               <p className='text-left h5 m-3'>Donde estamos:</p>

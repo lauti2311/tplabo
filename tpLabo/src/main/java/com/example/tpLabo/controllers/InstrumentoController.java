@@ -49,14 +49,19 @@ public class InstrumentoController {
     @PutMapping("/api/instrumentos/{id}")
     public Instrumento updateInstrumento(@PathVariable Integer id, @RequestBody Instrumento instrumento) {
         Integer idCategoria = instrumento.getIdCategoria();
-        if (idCategoria == null) {
-            throw new RuntimeException("El id de la categoría no puede ser nulo");
+        if (idCategoria != null) {
+            Categoria categoria = categoriaService.findById(idCategoria);
+            if (categoria == null) {
+                throw new CategoriaNotFoundException("Categoria no encontrada con ID: " + idCategoria);
+            }
+            instrumento.setCategoria(categoria);
+        } else {
+            // Si idCategoria es null, mantener la categoría actual del instrumento
+            Instrumento instrumentoActual = instrumentoService.findById(id);
+            if (instrumentoActual != null) {
+                instrumento.setCategoria(instrumentoActual.getCategoria());
+            }
         }
-        Categoria categoria = categoriaService.findById(idCategoria);
-        if (categoria == null) {
-            throw new CategoriaNotFoundException("Categoria no encontrada con ID: " + idCategoria);
-        }
-        instrumento.setCategoria(categoria);
         return instrumentoService.update(id, instrumento);
     }
 

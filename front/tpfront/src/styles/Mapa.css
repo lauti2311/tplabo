@@ -1,0 +1,11 @@
+.container {
+    display: flex; /* Usamos Flexbox para la distribución */
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+    width: 100%; 
+    margin: 0; 
+    padding: 0; 
+  }
+  
+  .menu-container { /* Opcional: si tienes un contenedor específico para el menú */
+    width: 100%; 
+  }

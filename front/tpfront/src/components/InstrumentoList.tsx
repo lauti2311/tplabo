@@ -10,25 +10,24 @@ import PedidoDetalle from '../types/PedidoDetalles';
 import CarritoItem from '../types/CarritoItem'; // Importa CarritoItem
 import { AuthContext } from '../utils/AuthContext'; // Asegúrate de que la ruta sea correcta
 import Modal from 'react-modal'; // Importa Modal
-
-
-
-
+import '../styles/InstrumentoList.css'; // Importa los estilos
+import '../styles/Menu.css';
 
 const InstrumentoList: React.FC = () => {
   const [instrumentos, setInstrumentos] = useState<Instrumento[] | undefined>(undefined);
   const [carrito, setCarrito] = useState<CarritoItem[]>([]);
   const authContext = useContext(AuthContext);
-const usuario = authContext ? authContext.usuario : undefined;
+  const usuario = authContext ? authContext.usuario : undefined;
   const [fechaDesde, setFechaDesde] = useState('');
   const [fechaHasta, setFechaHasta] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-const cerrarModal = () => {
-  setShowModal(false);
-};
-const generarExcel = () => {
-  if (fechaDesde && fechaHasta) {
+  const cerrarModal = () => {
+    setShowModal(false);
+  };
+
+  const generarExcel = () => {
+    if (fechaDesde && fechaHasta) {
       // Añadir la hora a las fechas
       const fechaDesdeConHora = `${fechaDesde}T00:00:00`;
       const fechaHastaConHora = `${fechaHasta}T23:59:59`;
@@ -38,11 +37,10 @@ const generarExcel = () => {
       // Abrir la URL en una nueva pestaña
       window.open(url, '_blank');
       cerrarModal();
-  } else {
+    } else {
       alert('Por favor ingresa ambas fechas.');
-  }
-}
-
+    }
+  };
 
   const agregarAlCarrito = (instrumento: Instrumento) => {
     const index = carrito.findIndex(item => item.instrumento.id === instrumento.id);
@@ -82,15 +80,15 @@ const generarExcel = () => {
         const pedidoDetalles: PedidoDetalle[] = carrito.map(item => ({
           cantidad: item.cantidad,
           instrumento: { id: item.instrumento.id },
-          pedido: { 
-            id: pedidoId, 
+          pedido: {
+            id: pedidoId,
             fechaPedido: new Date(),
-            totalPedido: total 
+            totalPedido: total
           }
         }));
 
         await axios.post('http://localhost:8080/api/pedidoDetalles', pedidoDetalles);
-        
+
         for (const item of carrito) {
           const instrumento = item.instrumento;
           await axios.put(`http://localhost:8080/api/instrumentos/${instrumento.id}/venta`, { cantidad: item.cantidad }, {
@@ -112,55 +110,63 @@ const generarExcel = () => {
 
   useEffect(() => {
     fetch('http://localhost:8080/api/instrumentos')
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         setInstrumentos(data);
-    });
+      });
   }, []);
+
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+
   useEffect(() => {
     fetch('http://localhost:8080/api/categorias')
       .then(response => response.json())
       .then(data => setCategorias(data));
   }, []);
+
   const deleteInstrumento = (id: string) => {
     fetch(`http://localhost:8080/api/instrumentos/${id}`, {
       method: 'DELETE',
     })
-    .then(() => {
-      if (instrumentos) {
-        setInstrumentos(instrumentos.filter(instrumento => instrumento.id !== Number(id)));
-      }
-    });
+      .then(() => {
+        if (instrumentos) {
+          setInstrumentos(instrumentos.filter(instrumento => instrumento.id !== Number(id)));
+        }
+      });
   };
+
   const instrumentosFiltrados = instrumentos && categoriaSeleccionada
-  ? instrumentos.filter(instrumento => instrumento.idCategoria === Number(categoriaSeleccionada))
-  : instrumentos;
+    ? instrumentos.filter(instrumento => instrumento.idCategoria === Number(categoriaSeleccionada))
+    : instrumentos;
+
   return (
-    <div className="container" style={{ display: 'flex' }}> 
-      <div style={{ flex: 2 }}>
-        <Menu />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <h2>Lista de Instrumentos</h2>
-          {usuario && usuario.rol !== 'VISOR' && (
-            <Link to="/crear-instrumento">
-              <button>Agregar Instrumento</button>
-            </Link>
-          )}
-               {usuario && usuario.rol === 'ADMIN' && (
+    <div>
+    <div> {/* Menú a la izquierda */}
+      <div className="menu">
+        <Menu /> 
+      </div>
+      {/* Resto del contenido del menú */}
+      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <h2>Lista de Instrumentos</h2>
+        {usuario && usuario.rol !== 'VISOR' && (
+          <Link to="/crear-instrumento">
+            <button>Agregar Instrumento</button>
+          </Link>
+        )}
+        {usuario && usuario.rol === 'ADMIN' && (
           <button onClick={() => setShowModal(true)}>Generar Excel</button>
-           )}
-         </div>    
+        )}
+      </div>
         <Modal isOpen={showModal} onRequestClose={cerrarModal}>
-            <h2>Generar Excel</h2>
-            <label>Fecha desde: </label>
-            <input type="date" value={fechaDesde} onChange={e => setFechaDesde(e.target.value)} />
-            <label>Fecha hasta: </label>
-            <input type="date" value={fechaHasta} onChange={e => setFechaHasta(e.target.value)} />
-            <button onClick={generarExcel}>Generar</button>
-            <button onClick={cerrarModal}>Cerrar</button>
-          </Modal>
+          <h2>Generar Excel</h2>
+          <label>Fecha desde: </label>
+          <input type="date" value={fechaDesde} onChange={e => setFechaDesde(e.target.value)} />
+          <label>Fecha hasta: </label>
+          <input type="date" value={fechaHasta} onChange={e => setFechaHasta(e.target.value)} />
+          <button onClick={generarExcel}>Generar</button>
+          <button onClick={cerrarModal}>Cerrar</button>
+        </Modal>
         <div>
           <label>Filtrar por categoría: </label>
           <select value={categoriaSeleccionada} onChange={e => setCategoriaSeleccionada(e.target.value)}>
@@ -170,13 +176,14 @@ const generarExcel = () => {
             ))}
           </select>
         </div>
+
         {instrumentosFiltrados === undefined ? (
           <p>Cargando instrumentos...</p>
         ) : (
           instrumentosFiltrados.length > 0 ? (
             instrumentosFiltrados.map((instrumento: Instrumento) => (
               <div className="instrumento" key={instrumento.id}>
-                <img src={instrumento.imagen} alt={instrumento.instrumento} />
+                <img className="instrumento-imagen" src={instrumento.imagen} alt={instrumento.instrumento} />
                 <div>
                   <h3>{instrumento.instrumento}</h3>
                   <p>Precio: ${instrumento.precio}</p>
@@ -186,21 +193,20 @@ const generarExcel = () => {
                       <img src="img/camion.png" style={{ width: '20px', height: '20px', margin: '2px' }} />
                       Envios Gratis
                     </p>}
-                    {usuario && usuario.rol !== 'VISOR' && (
-                      <>
-                        <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
-                        <Link to={`/instrumentos/${instrumento.id}/modificar`}>
-                          <button>Modificar Instrumento</button>
-                        </Link>
-                        
-                      </>
-                    )}
-                    <button onClick={() => agregarAlCarrito(instrumento)}>
-                      Agregar al carrito
-                    </button>
-                    <Link to={`/instrumento/${instrumento.id}`}>
-                      <button>Ver detalles</button>
-                    </Link>
+                  {usuario && usuario.rol !== 'VISOR' && (
+                    <>
+                      <button onClick={() => deleteInstrumento(instrumento.id.toString())}>Eliminar Instrumento</button>
+                      <Link to={`/instrumentos/${instrumento.id}/modificar`}>
+                        <button>Modificar Instrumento</button>
+                      </Link>
+                    </>
+                  )}
+                  <button onClick={() => agregarAlCarrito(instrumento)}>
+                    Agregar al carrito
+                  </button>
+                  <Link to={`/instrumento/${instrumento.id}`}>
+                    <button>Ver detalles</button>
+                  </Link>
                 </div>
               </div>
             ))
@@ -209,8 +215,8 @@ const generarExcel = () => {
           )
         )}
       </div>
-      <div style={{ flex: 1, marginLeft: '20px', position: 'sticky', top: '0' }}>
-        <Carrito carrito={carrito} onEliminarDelCarrito={eliminarDelCarrito} />
+      <div className='carrito-container'> {/* Carrito */}
+      <Carrito carrito={carrito} onEliminarDelCarrito={eliminarDelCarrito} />
         <button onClick={guardarCarrito} disabled={carrito.length === 0}>Guardar Carrito</button>
       </div>
     </div>
