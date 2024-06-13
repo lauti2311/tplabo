@@ -29,6 +29,12 @@ public class InstrumentoService {
                 .collect(Collectors.toList());
     }
 
+    public List<Instrumento> findAllDeleted() {
+        return instrumentoRepository.findAll().stream()
+                .filter(Instrumento::getIsDeleted)
+                .collect(Collectors.toList());
+    }
+
     public Instrumento save(Instrumento instrumento) {
         return instrumentoRepository.save(instrumento);
     }

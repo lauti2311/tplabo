@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
 import '../styles/Login.css';
 
-
 function Login() {
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [clave, setClave] = useState('');
@@ -15,7 +14,7 @@ function Login() {
   if (!auth) {
     throw new Error('useAuth debe estar dentro del proveedor AuthContext');
   }
-  
+
   const { iniciarSesion } = auth;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,23 +24,21 @@ function Login() {
       const response = await fetch('http://localhost:8080/usuarios');
       const usuarios: Usuario[] = await response.json();
 
-      // Encripta la clave ingresada antes de compararla
       const claveEncriptada = sha1(clave);
-      console.log("Clave encriptada:", claveEncriptada);
 
       const usuario = usuarios.find(usuario => 
         usuario.nombreUsuario === nombreUsuario && usuario.clave === claveEncriptada
       );
 
       if (usuario) {
-        console.log('Inicio de sesión exitoso:', usuario);
-        iniciarSesion(usuario.nombreUsuario, usuario.rol); // Aquí llamamos a iniciarSesion
+        console.log('Login - Inicio de sesión exitoso:', usuario); // Debugging
+        iniciarSesion(usuario.nombreUsuario, usuario.rol);
         navigate('/home');
       } else {
-        console.error('Error de inicio de sesión: usuario no encontrado');
+        console.error('Login - Error de inicio de sesión: usuario no encontrado');
       }
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+      console.error('Login - Error al iniciar sesión:', error);
     }
   };
 

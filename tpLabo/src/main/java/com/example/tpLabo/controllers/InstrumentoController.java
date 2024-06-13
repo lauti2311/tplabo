@@ -6,6 +6,8 @@ import com.example.tpLabo.entities.Instrumento;
 import com.example.tpLabo.services.CategoriaService;
 import com.example.tpLabo.services.InstrumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +26,16 @@ public class InstrumentoController {
 
     }
 
-    @GetMapping("/api/instrumentos")
-    public List<Instrumento> getInstrumentos() {
+    @GetMapping("/api/instrumentos/activos")
+    public List<Instrumento> getInstrumentosActivos() {
         return instrumentoService.findAll();
     }
+
+    @GetMapping("/api/instrumentos/eliminados")
+    public List<Instrumento> getInstrumentosEliminados() {
+        return instrumentoService.findAllDeleted();
+    }
+
 
     @GetMapping("/api/instrumentos/{id}")
     public Instrumento getInstrumento(@PathVariable Integer id) {
@@ -73,6 +81,29 @@ public class InstrumentoController {
         }
         instrumento.setIsDeleted(true);
         instrumentoService.save(instrumento);
+    }
+
+    @PutMapping("/api/instrumentos/{id}/restaurar")
+    public ResponseEntity<Instrumento> restaurarInstrumento(@PathVariable Integer id) {
+        try {
+            Instrumento instrumento = instrumentoService.findById(id);
+
+            if (instrumento == null) {
+                return ResponseEntity.notFound().build(); // 404 Not Found si no se encuentra
+            }
+
+            if (!instrumento.getIsDeleted()) {
+                return ResponseEntity.badRequest().body(instrumento); // 400 Bad Request si ya está activo
+            }
+
+            instrumento.setIsDeleted(false);
+            Instrumento instrumentoActualizado = instrumentoService.save(instrumento);
+
+            return ResponseEntity.ok(instrumentoActualizado); // 200 OK con el instrumento actualizado
+        } catch (Exception e) {
+            // Manejo de excepciones generales (puedes personalizar esto)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
+        }
     }
 
     @GetMapping("/api/instrumentos/categoria/{idCategoria}")

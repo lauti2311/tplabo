@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface InstrumentoRepository extends JpaRepository<Instrumento, Integer> {
-    @EntityGraph(attributePaths = "categoria") // Cargar la categoría con el Instrumento
     List<Instrumento> findAll();
+    @EntityGraph(attributePaths = "categoria") // Cargar la categoría con el Instrumento
     List<Instrumento> findByCategoriaId(int idCategoria);
 
 }

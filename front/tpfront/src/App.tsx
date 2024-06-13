@@ -12,6 +12,8 @@ import Login from './components/Login';
 import { AuthProvider } from './utils/AuthContext';
 import { RutaPrivada } from './utils/RutaPrivada';
 import ChartsGoogle from './components/ChartsGoogle';
+import InstrumentoAdmin from './components/InstrumentoAdmin';
+import { Rol } from './types/Usuario';
 
 
 const App: React.FC = () => {
@@ -21,14 +23,15 @@ const App: React.FC = () => {
       <div>
       <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/home" element={<RutaPrivada><Home /></RutaPrivada>} />
-            <Route path='/mapa' element={<RutaPrivada><Mapa /></RutaPrivada>} />
-            <Route path="/instrumentos" element={<RutaPrivada><InstrumentoList /></RutaPrivada>} />
-            <Route path="/instrumento/:id" element={<RutaPrivada><InstrumentoDetail /></RutaPrivada>} />
-            <Route path="/crear-instrumento" element={<RutaPrivada><CrearInstrumentoForm /></RutaPrivada>} />
-            <Route path="/instrumentos/:id/modificar" element={<RutaPrivada><ModificarInstrumento /></RutaPrivada>} />
-            <Route path="/mercadopago" element={<RutaPrivada><CheckoutMP /></RutaPrivada>} />
-            <Route path='/google-charts' element={<RutaPrivada><ChartsGoogle /></RutaPrivada>} />
+            <Route path="/home" element={<Home />} />
+            <Route path='/mapa' element={<Mapa />} />
+            <Route path="/instrumentos" element={<InstrumentoList />} />
+            <Route path="/instrumento/:id" element={<InstrumentoDetail />} />
+            <Route path="/crear-instrumento" element={<RutaPrivada rolesPermitidos={[Rol.ADMIN, Rol.OPERADOR]}><CrearInstrumentoForm /></RutaPrivada>} />
+            <Route path="/instrumentos/:id/modificar" element={<RutaPrivada rolesPermitidos={[Rol.ADMIN, Rol.OPERADOR]}><ModificarInstrumento /></RutaPrivada>} />
+            <Route path="/mercadopago" element={<RutaPrivada rolesPermitidos={[Rol.ADMIN, Rol.OPERADOR]}><CheckoutMP /></RutaPrivada>} />
+            <Route path='/google-charts' element={<RutaPrivada rolesPermitidos={[Rol.ADMIN, Rol.OPERADOR]}><ChartsGoogle /></RutaPrivada>} />
+            <Route path='/instrumento-admin' element={<RutaPrivada rolesPermitidos={[Rol.ADMIN]}><InstrumentoAdmin /></RutaPrivada>} />
             <Route path="*" element={<Login />} />
           </Routes>
       </div>

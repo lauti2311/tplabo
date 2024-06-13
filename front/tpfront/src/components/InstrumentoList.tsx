@@ -109,7 +109,7 @@ const InstrumentoList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/instrumentos')
+    fetch('http://localhost:8080/api/instrumentos/activos')
       .then(response => response.json())
       .then(data => {
         setInstrumentos(data);

@@ -78,7 +78,7 @@ const ModificarInstrumento: React.FC = () => {
       if (response.status === 200) {
         // Actualizar la interfaz con el mensaje de éxito
         console.log('Instrumento modificado correctamente');
-        navigate('/instrumentos');
+        navigate('/instrumento-admin');
       } else {
         // Manejar el error de actualización
         console.error('Error al modificar el instrumento');

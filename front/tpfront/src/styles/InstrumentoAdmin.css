@@ -1,0 +1,38 @@
+table {
+    width: 100%; /* Ancho completo */
+    border-collapse: collapse; /* Unir bordes de las celdas */
+  }
+  
+  th, td {
+    padding: 10px; /* Espacio interno */
+    border: 1px solid #ddd; /* Borde */
+    text-align: left; /* Alineación del texto */
+  }
+  
+  th {
+    background-color: #f2f2f2; /* Fondo del encabezado */
+  }
+  
+  /* Estilo para filas eliminadas */
+  tr.eliminado {
+    background-color: #ffdddd; /* Fondo rojo claro */
+  }
+
+  .modal-content {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 20px; /* Ajusta el padding según tus necesidades */
+  }
+  
+  .modal-body label,
+  .modal-body input {
+    margin: 0;
+    padding: 5px;
+  }
