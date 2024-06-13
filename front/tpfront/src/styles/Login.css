@@ -1,30 +1,78 @@
+/* Login.css */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f2f5;
+}
+
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 300px;
-    margin: auto;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .submit {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .submit:hover {
-    background-color: #0056b3;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 300px;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-label {
+  width: 100%;
+  font-size: 16px;
+  color: #555;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333; /* Color del texto */
+  background-color: #fff; /* Color de fondo */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.submit {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #0056b3;
+}
+
+.submit:active {
+  background-color: #003f7f;
+}
+
+.submit:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

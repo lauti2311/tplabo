@@ -43,17 +43,20 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <label>
-        Nombre de usuario:
-        <input type="text" value={nombreUsuario} onChange={e => setNombreUsuario(e.target.value)} className="input" />
-      </label>
-      <label>
-        Contraseña:
-        <input type="password" value={clave} onChange={e => setClave(e.target.value)} className="input" />
-      </label>
-      <input type="submit" value="Iniciar sesión" className="submit" />
-    </form>
+    <div className="login-container">
+      <form onSubmit={handleSubmit} className="form">
+        <h2 className="form-title">Iniciar Sesión</h2>
+        <label className="form-label">
+          Nombre de usuario:
+          <input type="text" value={nombreUsuario} onChange={e => setNombreUsuario(e.target.value)} className="input" />
+        </label>
+        <label className="form-label">
+          Contraseña:
+          <input type="password" value={clave} onChange={e => setClave(e.target.value)} className="input" />
+        </label>
+        <input type="submit" value="Iniciar sesión" className="submit" />
+      </form>
+    </div>
   );
 }
 

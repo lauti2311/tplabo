@@ -20,6 +20,7 @@ const Menu = () => {
   };
 
   return (
+    <div className="menu-container"> {/* Añade la clase aquí */}
     <nav className="menu">
       <ul>
         <li><Link to="/home">Home</Link></li>
@@ -31,6 +32,7 @@ const Menu = () => {
         <li><button onClick={handleCerrarSesion}>Cerrar Sesión</button></li>
       </ul>
     </nav>
+    </div>
   );
 }
 

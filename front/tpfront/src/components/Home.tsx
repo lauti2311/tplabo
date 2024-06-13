@@ -6,7 +6,9 @@ import '../styles/Home.css';
 const Home = () => {
   return (
     <div>
-    <Menu />
+    <div className="menu">
+        <Menu /> 
+      </div>
     <div className="home-container home ">
       
       <div className="title-container">

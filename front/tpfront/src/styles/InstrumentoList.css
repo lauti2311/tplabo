@@ -3,6 +3,7 @@
     flex-direction: column; /* Apilar elementos verticalmente */
     width: 100%; /* Ocupar todo el ancho */
     margin: 0;
+    
   }
   .left-panel {
     width: 100%; /* Ocupa todo el ancho disponible */
@@ -52,4 +53,17 @@
   /* Estilos adicionales para botones dentro del carrito */
   .carrito-container button {
     margin-top: 10px; /* Espacio superior entre botones */
+  }
+
+  .instrumentos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filtro-categorias select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
