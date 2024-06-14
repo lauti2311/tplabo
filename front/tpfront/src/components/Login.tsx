@@ -1,15 +1,22 @@
 import React, { useState, useContext } from 'react';
-import { sha1 } from 'js-sha1';
 import Usuario from '../types/Usuario';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
 import '../styles/Login.css';
+import { encode as base64Encode } from 'base64-arraybuffer';
 
 function Login() {
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [clave, setClave] = useState('');
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
+
+  function sha1Base64(str) {
+    const buffer = new TextEncoder().encode(str);
+    return window.crypto.subtle.digest('SHA-1', buffer).then(hash => {
+      return base64Encode(hash);
+    });
+  }
 
   if (!auth) {
     throw new Error('useAuth debe estar dentro del proveedor AuthContext');
@@ -23,13 +30,13 @@ function Login() {
     try {
       const response = await fetch('http://localhost:8080/usuarios');
       const usuarios: Usuario[] = await response.json();
-
-      const claveEncriptada = sha1(clave);
-
+  
+      const claveEncriptada = await sha1Base64(clave);
+  
       const usuario = usuarios.find(usuario => 
         usuario.nombreUsuario === nombreUsuario && usuario.clave === claveEncriptada
       );
-
+  
       if (usuario) {
         console.log('Login - Inicio de sesión exitoso:', usuario); // Debugging
         iniciarSesion(usuario.nombreUsuario, usuario.rol);

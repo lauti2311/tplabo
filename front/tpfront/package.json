@@ -12,6 +12,7 @@
   "dependencies": {
     "@mercadopago/sdk-react": "^0.0.19",
     "@react-google-maps/api": "^2.19.3",
+    "@types/base64-arraybuffer": "^0.2.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "formik": "^2.4.6",
